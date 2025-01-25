@@ -1,88 +1,95 @@
 /* General Reset */
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #fcefee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  /* Container */
-  .container {
-    text-align: center;
-  }
-  
-  /* Header */
-  header h1 {
-    font-size: 3rem;
-    font-family: 'Georgia', serif;
-  }
-  
-  header h2 {
-    font-size: 2rem;
-    text-decoration: underline;
-    color: #3fd0b6;
-    margin-bottom: 30px;
-  }
-  
-  /* Sitemap Section */
-  .sitemap {
-    margin-bottom: 40px;
-  }
-  
-  .home {
-    font-size: 1.5rem;
-    padding: 10px 20px;
-    display: inline-block;
-    border: 1px solid #000;
-    border-radius: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .buttons-row {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 15px;
-  }
-  
-  .sitemap-button {
-    background-color: #000;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .sitemap-button:hover {
-    background-color: #333;
-  }
-  
-  /* Bubble Button */
-  .join-community {
-    margin-top: 30px;
-  }
-  
-  .bubble-button {
-    background: linear-gradient(90deg, #71c7ec, #c58ef4);
-    color: white;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-  
-  .bubble-button:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-    transition: all 0.2s;
-  }
-  
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #fcefee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Container */
+.container {
+  text-align: center;
+}
+
+/* Header */
+.title {
+  font-size: 4rem;
+  margin: 0;
+  font-weight: 400;
+}
+
+.subtitle {
+  font-size: 2rem;
+  margin: 0;
+  color: #3fd0b6;
+  text-decoration: underline;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 40px;
+}
+
+/* Sitemap Section */
+.sitemap {
+  margin-bottom: 40px;
+}
+
+.home {
+  font-size: 1.8rem;
+  padding: 10px 30px;
+  display: inline-block;
+  border: 2px solid #000;
+  border-radius: 30px;
+  margin-bottom: 30px;
+  font-family: 'Arial', sans-serif;
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.sitemap-button {
+  background-color: #000;
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.sitemap-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Bubble Button */
+.join-community {
+  margin-top: 30px;
+}
+
+.bubble-button {
+  background: linear-gradient(90deg, #71c7ec, #c58ef4);
+  color: white;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.bubble-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
