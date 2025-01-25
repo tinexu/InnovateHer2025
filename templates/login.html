@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Sign Up</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+  <header>
+    <h1>Login or Sign Up</h1>
+  </header>
+  
+  <section>
+    <!-- Login Form -->
+    <form id="login-form">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </form>
+  </section>
+
+  <!-- Firebase SDK integration -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+  <!-- Initialize Firebase -->
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBcRSZTGqSe6tP47sOYw7-GH-H8uvcwiHQ",
+        authDomain: "innovateher25.firebaseapp.com",
+        projectId: "innovateher25",
+        storageBucket: "innovateher25.firebasestorage.app",
+        messagingSenderId: "726795410942",
+        appId: "1:726795410942:web:a948a64058eabdc70e74af",
+        measurementId: "G-FZEEPZRJ78"
+};
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Login logic
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginForm['email'].value;
+      const password = loginForm['password'].value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert('Login successful!');
+          // You can redirect or show user details here
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert('Error: ' + errorMessage);
+        });
+    });
+  </script>
+</body>
+</html>
