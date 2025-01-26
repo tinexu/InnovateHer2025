@@ -1,68 +1,117 @@
 import streamlit as st
-import numpy as np
 
-# Set up the main page
-st.title("Financial Planning Calculator")
-st.sidebar.title("Choose Calculator")
+# Define the color scheme
+PRIMARY_COLOR = "#FFB4FF"
+SECONDARY_COLOR = "#F7D9F4"
+TERTIARY_COLOR = "#DCD8F3"
+ACCENT_COLOR = "#C5C0F7"
+HIGHLIGHT_COLOR = "#CE3971"
 
-# Sidebar navigation
-calculator = st.sidebar.radio(
-    "Select a Calculator:",
-    ("Retirement Savings", "Loan Repayment", "Investment Growth")
+# Custom Streamlit style
+st.markdown(
+    f"""
+    <style>
+        /* Background for the entire app */
+        .stApp {{
+            background-color: {HIGHLIGHT_COLOR};
+        }}
+        
+        /* Customize buttons */
+        .stButton > button {{
+            background-color: {PRIMARY_COLOR};
+            color: black;
+            border-radius: 8px;
+            border: 2px solid {ACCENT_COLOR};
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+        }}
+        
+        /* Hover effect for buttons */
+        .stButton > button:hover {{
+            background-color: {ACCENT_COLOR};
+            color: white;
+        }}
+        
+        /* Text headers */
+        h1 {{
+            color: {HIGHLIGHT_COLOR};
+            font-family: Arial, sans-serif;
+        }}
+        
+        h2 {{
+            color: {HIGHLIGHT_COLOR};
+            font-family: Arial, sans-serif;
+        }}
+        
+        /* Sliders */
+        .stSlider {{
+            background-color: {TERTIARY_COLOR};
+            border-radius: 10px;
+        }}
+        
+        /* Subheader and other texts */
+        .stMarkdown p {{
+            color: black;
+            font-family: Arial, sans-serif;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
-# 1. Retirement Savings Calculator
-if calculator == "Retirement Savings":
+# App title
+st.title("Financial Planning Calculator")
+
+# Create the toggle for calculators
+option = st.radio(
+    "Select a Calculator",
+    ("Retirement Savings", "Loan Repayment", "Investment Growth"),
+    horizontal=True,
+    index=0,
+)
+
+if option == "Retirement Savings":
     st.header("Retirement Savings Calculator")
-    
-    # Input fields
-    current_age = st.number_input("Current Age", min_value=18, max_value=80, value=30, step=1)
-    retirement_age = st.number_input("Desired Retirement Age", min_value=30, max_value=80, value=65, step=1)
-    current_savings = st.number_input("Current Savings ($)", min_value=0, value=0, step=1000)
-    monthly_contribution = st.number_input("Monthly Contribution ($)", min_value=0, value=500, step=100)
-    annual_return_rate = st.number_input("Expected Annual Return Rate (%)", min_value=0.0, max_value=20.0, value=7.0, step=0.1)
-    
-    if st.button("Calculate Retirement Savings"):
-        years_to_retirement = retirement_age - current_age
-        future_savings = current_savings
-        for _ in range(years_to_retirement * 12):
-            future_savings += monthly_contribution
-            future_savings *= (1 + annual_return_rate / 100 / 12)
-        st.success(f"Estimated Savings at Retirement: ${future_savings:,.2f}")
 
-# 2. Loan Repayment Calculator
-elif calculator == "Loan Repayment":
+    current_age = st.slider("Current Age:", 18, 65, 30)
+    retirement_age = st.slider("Retirement Age:", 40, 70, 65)
+    current_savings = st.number_input("Current Savings ($):", min_value=0.0, value=10000.0, step=1000.0)
+    monthly_contribution = st.number_input("Monthly Contribution ($):", min_value=0.0, value=500.0, step=100.0)
+    annual_return = st.slider("Expected Annual Return (%):", 0.0, 15.0, 5.0)
+
+    years_to_retirement = retirement_age - current_age
+    future_value = current_savings * (1 + annual_return / 100) ** years_to_retirement + \
+                   monthly_contribution * (((1 + annual_return / 100) ** years_to_retirement - 1) / (annual_return / 100))
+
+    st.subheader(f"Estimated Savings by Retirement: ${future_value:,.2f}")
+
+elif option == "Loan Repayment":
     st.header("Loan Repayment Calculator")
-    
-    # Input fields
-    loan_amount = st.number_input("Loan Amount ($)", min_value=1000, value=10000, step=1000)
-    annual_interest_rate = st.number_input("Annual Interest Rate (%)", min_value=0.1, max_value=50.0, value=5.0, step=0.1)
-    loan_term_years = st.number_input("Loan Term (Years)", min_value=1, max_value=30, value=5, step=1)
-    
-    if st.button("Calculate Monthly Payment"):
-        monthly_interest_rate = annual_interest_rate / 100 / 12
-        num_payments = loan_term_years * 12
-        monthly_payment = loan_amount * monthly_interest_rate / (1 - (1 + monthly_interest_rate) ** -num_payments)
-        st.success(f"Your Monthly Payment: ${monthly_payment:,.2f}")
-        total_payment = monthly_payment * num_payments
-        st.info(f"Total Amount Paid Over the Loan Term: ${total_payment:,.2f}")
 
-# 3. Investment Growth Calculator
-elif calculator == "Investment Growth":
+    loan_amount = st.number_input("Loan Amount ($):", min_value=0.0, value=20000.0, step=1000.0)
+    annual_interest = st.slider("Annual Interest Rate (%):", 0.0, 20.0, 5.0)
+    loan_term = st.slider("Loan Term (Years):", 1, 30, 10)
+
+    monthly_interest = annual_interest / 100 / 12
+    num_payments = loan_term * 12
+    if monthly_interest > 0:
+        monthly_payment = loan_amount * (monthly_interest * (1 + monthly_interest) ** num_payments) / (
+            (1 + monthly_interest) ** num_payments - 1)
+    else:
+        monthly_payment = loan_amount / num_payments
+
+    st.subheader(f"Monthly Payment: ${monthly_payment:,.2f}")
+
+elif option == "Investment Growth":
     st.header("Investment Growth Calculator")
-    
-    # Input fields
-    initial_investment = st.number_input("Initial Investment ($)", min_value=0, value=1000, step=100)
-    monthly_contribution = st.number_input("Monthly Contribution ($)", min_value=0, value=200, step=50)
-    annual_return_rate = st.number_input("Expected Annual Return Rate (%)", min_value=0.0, max_value=20.0, value=8.0, step=0.1)
-    investment_period_years = st.number_input("Investment Period (Years)", min_value=1, max_value=50, value=20, step=1)
-    
-    if st.button("Calculate Investment Growth"):
-        total_investment = initial_investment
-        for _ in range(investment_period_years * 12):
-            total_investment += monthly_contribution
-            total_investment *= (1 + annual_return_rate / 100 / 12)
-        st.success(f"Future Value of Investment: ${total_investment:,.2f}")
 
-# Footer
-st.sidebar.write("Financial calculators to help you plan for your future.")
+    initial_investment = st.number_input("Initial Investment ($):", min_value=0.0, value=10000.0, step=1000.0)
+    annual_contribution = st.number_input("Annual Contribution ($):", min_value=0.0, value=5000.0, step=500.0)
+    annual_growth_rate = st.slider("Expected Annual Growth Rate (%):", 0.0, 20.0, 7.0)
+    investment_period = st.slider("Investment Period (Years):", 1, 40, 20)
+
+    future_value = initial_investment * (1 + annual_growth_rate / 100) ** investment_period + \
+                   annual_contribution * (((1 + annual_growth_rate / 100) ** investment_period - 1) / (annual_growth_rate / 100))
+
+    st.subheader(f"Estimated Investment Value: ${future_value:,.2f}")
